@@ -19,6 +19,7 @@ CVS
 
 # python
 *.pyc
+env/*
 
 # project specific
 content/*
