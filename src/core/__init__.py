@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, abort
 
 from src import app
 
