@@ -1,9 +1,9 @@
 from flask import Flask
 
-www = Flask(__name__)
+app = Flask(__name__)
 
 from serve import serve
-www.register_blueprint(serve)
+app.register_blueprint(serve)
 
 from admin import admin
-www.register_blueprint(admin, prefix='/admin')
+app.register_blueprint(admin, prefix='/admin')
