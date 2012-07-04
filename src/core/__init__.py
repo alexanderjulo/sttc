@@ -2,4 +2,4 @@ from flask import Blueprint
 
 from src import app
 
-serve = Blueprint('serve', __name__)
+core = Blueprint('core', __name__)
