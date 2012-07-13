@@ -1,10 +1,9 @@
 import os
 from exceptions import IOError, OSError, NotImplementedError
-from source import app, cache
+from source import app
 
 RENDERMAP = {}
 
-@cache.memoize()
 def get_filenames():
 	if os.path.isdir(app.config['DEFAULT_CONTENT_DIR']):
 		def _walk(dir, prefix=()):
@@ -21,7 +20,6 @@ def get_filenames():
 	else:
 		return None
 
-@cache.memoize()
 def get_file_content(filename):
 	try:
 		f = open(os.path.join(app.config['DEFAULT_CONTENT_DIR'], filename))
@@ -32,16 +30,13 @@ def get_file_content(filename):
 		f.close()
 		return file_content
 		
-@cache.memoize()
 def get_file_type(filename):
 	extension = filename.split('.')[-1]
-	print extension
 	try:
 		return RENDERMAP[extension]
 	except KeyError:
 		return None
 		
-@cache.memoize()
 def get_file_object(filename):
 	file = get_file_type(filename)
 	if file:
@@ -67,7 +62,6 @@ class MarkdownFile(File):
 		self.content = get_file_content(filename)
 		self._parse()
 		
-	@cache.memoize()
 	def _parse(self):
 		self.md = self.Markdown(extensions=['meta'])
 		self.html = self.md.convert(self.content)
