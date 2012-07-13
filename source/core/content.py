@@ -7,7 +7,7 @@ from source import app
 RENDERMAP = {}
 
 def get_filenames():
-	if os.path.isdir(app.config['DEFAULT_CONTENT_DIR']):
+	if os.path.isdir(app.config['CONTENT_DIR']):
 		def _walk(dir, prefix=()):
 			for name in os.listdir(dir):
 				full_name = os.path.join(dir, name)
@@ -17,16 +17,16 @@ def get_filenames():
 					extension = name.split('.')[-1]
 					entries.append('/'.join(prefix + (name[:-len(extension)-1],)))
 		entries = []
-		_walk(app.config['DEFAULT_CONTENT_DIR'])
+		_walk(app.config['CONTENT_DIR'])
 		# TODO: filter entries
 		return entries
 	else:
 		return None
 
 def find_file(url):
-	possible_filenames = glob(os.path.join(app.config['DEFAULT_CONTENT_DIR'], url + '.*'))
+	possible_filenames = glob(os.path.join(app.config['CONTENT_DIR'], url + '.*'))
 	if len(possible_filenames) == 1:
-		return possible_filenames[0][len(app.config['DEFAULT_CONTENT_DIR'])+1:]
+		return possible_filenames[0][len(app.config['CONTENT_DIR'])+1:]
 	else:
 		# "who wants to put both files into one directory anyway. we thought:
 		# if someone is this dumb, our script should handle that in similar manner
@@ -35,7 +35,7 @@ def find_file(url):
 
 def get_file_content(filename):
 	try:
-		f = open(os.path.join(app.config['DEFAULT_CONTENT_DIR'], filename))
+		f = open(os.path.join(app.config['CONTENT_DIR'], filename))
 	except IOError:
 		print filename
 		print 'file not found!'

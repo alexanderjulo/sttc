@@ -4,7 +4,7 @@ app = Flask(__name__)
 app.debug = True
 
 # some default configuration variables
-DEFAULT_CONTENT_DIR='content'
+CONTENT_DIR='content'
 CACHE_TYPE='null'
 CACHE_DEFAULT_TIMEOUT=0
 
