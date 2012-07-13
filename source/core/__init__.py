@@ -1,6 +1,6 @@
 from flask import Blueprint, abort
 
-from src import app
+from source import app
 
 from exceptions import IOError, OSError
 import os
@@ -41,7 +41,7 @@ def index():
 		# TODO: pass that to a template or something
 		return str(filenames)
 
-@app.route('/<filename>')
+@app.route('/<path:filename>/')
 def get_file(filename):
 	try:
 		# TODO: - render the file content using the configured renderer

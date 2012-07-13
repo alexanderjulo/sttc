@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-from src import app
+from source import app
 
 admin = Blueprint('admin', __name__)
