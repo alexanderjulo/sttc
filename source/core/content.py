@@ -8,16 +8,8 @@ RENDERMAP = {}
 
 def get_filenames():
 	if os.path.isdir(app.config['CONTENT_DIR']):
-		def _walk(dir, prefix=()):
-			for name in os.listdir(dir):
-				full_name = os.path.join(dir, name)
-				if os.path.isdir(full_name):
-					_walk(full_name, prefix + (name,))
-				else:
-					extension = name.split('.')[-1]
-					entries.append('/'.join(prefix + (name[:-len(extension)-1],)))
-		entries = []
-		_walk(app.config['CONTENT_DIR'])
+		for dirpath, dirnames, filenames in os.walk(app.config['CONTENT_DIR']):
+			entries.extend(filenames)
 		# TODO: filter entries
 		return entries
 	else:
@@ -37,8 +29,6 @@ def get_file_content(filename):
 	try:
 		f = open(os.path.join(app.config['CONTENT_DIR'], filename))
 	except IOError:
-		print filename
-		print 'file not found!'
 		return None
 	else:
 		file_content = f.read()
