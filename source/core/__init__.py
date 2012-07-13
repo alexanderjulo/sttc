@@ -30,7 +30,7 @@ def get_filenames():
 def get_file_content(filename):
 	try:
 		# TODO: make files directory configurable
-		f = open('files/' + filename)
+		f = open(app.config['DEFAULT_CONTENT_DIR'] + filename)
 	except IOError as e:
 		raise
 	else:
