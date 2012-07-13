@@ -10,7 +10,7 @@ core = Blueprint('core', __name__)
 def get_filenames():
 	try:
 		# TODO: make files directory configurable
-		entries = os.listdir('files')
+		entries = os.listdir(app.config['DEFAULT_CONTENT_DIR'])
 	except OSError as e:
 		raise
 	else:
