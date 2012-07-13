@@ -1,18 +1,18 @@
 from flask import Blueprint, abort
 
-from source import app
+from source import app, cache
 
 from exceptions import IOError, OSError
 import os
 
 core = Blueprint('core', __name__)
 
+@cache.memoize()
 def get_filenames():
 	if os.path.isdir(app.config['DEFAULT_CONTENT_DIR']):
 		def _walk(dir, prefix=()):
 			for name in os.listdir(dir):
 				full_name = os.path.join(dir, name)
-				print(name, full_name, prefix)
 				if os.path.isdir(full_name):
 					_walk(full_name, prefix + (name,))
 				else:
@@ -24,9 +24,7 @@ def get_filenames():
 	else:
 		return None
 
-# TODO: - cache this function
-#       - maybe a default NullCache that doesn't cache at all
-#       - but where should we initialize the cache?
+@cache.memoize()
 def get_file_content(filename):
 	try:
 		f = open(os.path.join(app.config['DEFAULT_CONTENT_DIR'], filename))
