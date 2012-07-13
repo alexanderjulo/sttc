@@ -23,4 +23,5 @@ env/
 venv/
 
 # project specific
-content/*
+content/
+files/
