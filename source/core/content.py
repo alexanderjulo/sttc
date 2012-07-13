@@ -1,4 +1,5 @@
 import os
+from glob import glob
 from exceptions import IOError, OSError, NotImplementedError
 from source import app
 
@@ -12,7 +13,8 @@ def get_filenames():
 				if os.path.isdir(full_name):
 					_walk(full_name, prefix + (name,))
 				else:
-					entries.append('/'.join(prefix + (name,)))
+					extension = name.split('.')[-1]
+					entries.append('/'.join(prefix + (name[:-len(extension)-1],)))
 		entries = []
 		_walk(app.config['DEFAULT_CONTENT_DIR'])
 		# TODO: filter entries
@@ -20,10 +22,20 @@ def get_filenames():
 	else:
 		return None
 
+def find_file(url):
+	possible_filenames = glob(os.path.join(app.config['DEFAULT_CONTENT_DIR'], url + '.*'))
+	if len(possible_filenames) == 1:
+		return possible_filenames[0][len(app.config['DEFAULT_CONTENT_DIR'])+1:]
+	else:
+		# TODO: find best possible match
+		return None
+
 def get_file_content(filename):
 	try:
 		f = open(os.path.join(app.config['DEFAULT_CONTENT_DIR'], filename))
 	except IOError:
+		print filename
+		print 'file not found!'
 		return None
 	else:
 		file_content = f.read()
