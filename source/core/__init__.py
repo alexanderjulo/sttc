@@ -29,10 +29,9 @@ def get_filenames():
 #       - but where should we initialize the cache?
 def get_file_content(filename):
 	try:
-		# TODO: make files directory configurable
-		f = open(app.config['DEFAULT_CONTENT_DIR'] + filename)
-	except IOError as e:
-		raise
+		f = open(os.path.join(app.config['DEFAULT_CONTENT_DIR'], filename))
+	except IOError:
+		return None
 	else:
 		file_content = f.read()
 		f.close()
@@ -40,22 +39,19 @@ def get_file_content(filename):
 
 @app.route('/')
 def index():
-	try:
-		filenames = get_filenames()
-	except OSError:
-		abort(500)
-	else:
-		# TODO: pass that to a template or something
+	filenames = get_filenames()
+	if filenames:
 		return str(filenames)
+	else:
+		abort(500)
 
 @app.route('/<path:filename>/')
 def get_file(filename):
-	try:
+	file_content = get_file_content(filename)
 		# TODO: - render the file content using the configured renderer
 		#       - maybe a default NullRenderer that returns what you put in
 		#       - or pass it to a template
-		file_content = get_file_content(filename)
-	except IOError:
-		abort(404)
-	else:
+	if file_content:
 		return file_content
+	else:
+		abort(404)
