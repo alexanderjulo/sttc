@@ -7,10 +7,6 @@ app.debug = True
 DEFAULT_CONTENT_DIR='content'
 CACHE_TYPE='null'
 CACHE_DEFAULT_TIMEOUT=0
-RENDERERS={
-	'.md': 'markdown',
-	'.txt': 'textile'
-}
 
 app.config.from_object(__name__)
 app.config.from_pyfile('../config/main.py')

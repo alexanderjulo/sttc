@@ -1,6 +1,6 @@
 from flask import abort
 from . import mod
-from content import get_filenames, get_file_content
+from content import get_filenames, get_file_object
 
 @mod.route('/')
 def index():
@@ -12,11 +12,11 @@ def index():
 
 @mod.route('/<path:filename>/')
 def get_file(filename):
-	file_content = get_file_content(filename)
+	file = get_file_object(filename)
 		# TODO: - render the file content using the configured renderer
 		#       - maybe a default NullRenderer that returns what you put in
 		#       - or pass it to a template
-	if file_content:
-		return file_content
+	if file:
+		return file.html
 	else:
 		abort(404)
