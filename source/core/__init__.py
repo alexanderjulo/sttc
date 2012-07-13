@@ -8,14 +8,21 @@ import os
 core = Blueprint('core', __name__)
 
 def get_filenames():
-	try:
-		# TODO: make files directory configurable
-		entries = os.listdir(app.config['DEFAULT_CONTENT_DIR'])
-	except OSError as e:
-		raise
-	else:
+	if os.path.isdir(app.config['DEFAULT_CONTENT_DIR']):
+		def _walk(dir, prefix=()):
+			for name in os.listdir(dir):
+				full_name = os.path.join(dir, name)
+				print(name, full_name, prefix)
+				if os.path.isdir(full_name):
+					_walk(full_name, prefix + (name,))
+				else:
+					entries.append('/'.join(prefix + (name,)))
+		entries = []
+		_walk(app.config['DEFAULT_CONTENT_DIR'])
 		# TODO: filter entries
 		return entries
+	else:
+		return None
 
 # TODO: - cache this function
 #       - maybe a default NullCache that doesn't cache at all
