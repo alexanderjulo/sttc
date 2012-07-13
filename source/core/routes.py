@@ -1,6 +1,5 @@
 from flask import abort
-from . import mod
-from content import get_filenames, get_file_object
+from source.core import mod, get_filenames, get_file_object
 
 @mod.route('/')
 def index():
