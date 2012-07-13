@@ -1,6 +1,6 @@
 import os
 from exceptions import IOError, OSError
-from source import cache
+from source import app, cache
 
 @cache.memoize()
 def get_filenames():
