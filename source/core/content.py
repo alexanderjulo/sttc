@@ -1,6 +1,6 @@
 import os
 from glob import glob
-from random import randrange
+import random
 from exceptions import IOError, OSError, NotImplementedError
 from source import app
 
@@ -24,7 +24,7 @@ def find_file(url):
 		# "who wants to put both files into one directory anyway. we thought:
 		# if someone is this dumb, our script should handle that in similar manner
 		# bl1nk, #sttc @ freenode, 2012-07-13 19:27
-		return possible_filenames[randrange(0, len(possible_filenames)-1)]
+		return random.choice(possible_filenames)
 
 def get_file_content(filename):
 	try:
