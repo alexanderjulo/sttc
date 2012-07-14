@@ -8,6 +8,7 @@ RENDERMAP = {}
 
 def get_filenames():
 	if os.path.isdir(app.config['CONTENT_DIR']):
+		entries = []
 		for dirpath, dirnames, filenames in os.walk(app.config['CONTENT_DIR']):
 			entries.extend(filenames)
 		# TODO: filter entries
