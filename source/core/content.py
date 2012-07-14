@@ -74,4 +74,5 @@ class MarkdownFile(File):
 		self.html = self.md.convert(self.content)
 		self.meta = self.md.Meta
 
+# RENDERMAP[''] = File ???
 RENDERMAP['md'] = MarkdownFile
