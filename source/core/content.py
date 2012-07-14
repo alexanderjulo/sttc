@@ -1,4 +1,5 @@
-import os
+import os.walk
+from os.path import join, splitext, isdir
 from glob import glob
 import random
 from exceptions import IOError, OSError, NotImplementedError
@@ -7,7 +8,7 @@ from source import app
 RENDERMAP = {}
 
 def get_filenames():
-	if os.path.isdir(app.config['CONTENT_DIR']):
+	if isdir(app.config['CONTENT_DIR']):
 		entries = []
 		for dirpath, dirnames, filenames in os.walk(app.config['CONTENT_DIR']):
 			entries.extend(filenames)
@@ -17,7 +18,7 @@ def get_filenames():
 		return None
 
 def find_file(url):
-	possible_filenames = glob(os.path.join(app.config['CONTENT_DIR'], url + '.*'))
+	possible_filenames = glob(join(app.config['CONTENT_DIR'], url + '.*'))
 	if len(possible_filenames) == 1:
 		return possible_filenames[0][len(app.config['CONTENT_DIR'])+1:]
 	else:
@@ -28,7 +29,7 @@ def find_file(url):
 
 def get_file_content(filename):
 	try:
-		f = open(os.path.join(app.config['CONTENT_DIR'], filename))
+		f = open(join(app.config['CONTENT_DIR'], filename))
 	except IOError:
 		return None
 	else:
@@ -37,7 +38,7 @@ def get_file_content(filename):
 		return file_content
 		
 def get_file_type(filename):
-	extension = filename.split('.')[-1]
+	extension = splitext(filename)[1]
 	try:
 		return RENDERMAP[extension]
 	except KeyError:
